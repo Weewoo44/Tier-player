@@ -5,400 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Tier Session Player</title>
   <style>
-    :root {
-      --bg: #0b0b0f;
-      --panel: #171720;
-      --text: #f4f4f6;
-      --muted: #a9a9b3;
-      --border: #2b2b36;
-      --accent: #e8e8ef;
-      --danger: #ff6b6b;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 18px;
-    }
-
-    .app {
-      width: min(720px, 100%);
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      letter-spacing: -0.03em;
-    }
-
-    p {
-      color: var(--muted);
-      line-height: 1.45;
-      margin: 0 0 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .card {
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px;
-      background: rgba(255,255,255,.025);
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    label.title {
-      font-weight: 700;
-      font-size: 16px;
-    }
-
-    input[type="file"] {
-      width: 100%;
-      margin-top: 10px;
-      color: var(--muted);
-    }
-
-    .count {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    button {
-      appearance: none;
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #111;
-      background: var(--accent);
-    }
-
-    button.secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    button.danger {
-      background: transparent;
-      color: var(--danger);
-      border: 1px solid rgba(255,107,107,.45);
-    }
-
-    .status {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 14px;
-      min-height: 22px;
-    }
-
-    #player {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      overflow: hidden;
-    }
-
-    #displayImage {
-      width: 100vw;
-      height: 100vh;
-      object-fit: contain;
-      background: #000;
-    }
-
-    #overlay {
-      position: fixed;
-      left: 12px;
-      right: 12px;
-      bottom: calc(12px + env(safe-area-inset-bottom));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      color: rgba(255,255,255,.85);
-      font-size: 14px;
-      pointer-events: none;
-    }
-
-    #overlay button {
-      pointer-events: auto;
-      font-size: 14px;
-      padding: 10px 12px;
-      background: rgba(255,255,255,.14);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,.22);
-      backdrop-filter: blur(10px);
-    }
-
-    .tiny {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 12px;
-    }
+    :root { --bg:#0b0b0f; --panel:#171720; --text:#f4f4f6; --muted:#a9a9b3; --border:#2b2b36; --accent:#e8e8ef; --danger:#ff6b6b; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); display:flex; justify-content:center; align-items:center; padding:18px; }
+    .app { width:min(760px,100%); background:var(--panel); border:1px solid var(--border); border-radius:22px; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+    h1 { margin:0 0 8px; font-size:28px; letter-spacing:-.03em; }
+    p { color:var(--muted); line-height:1.45; margin:0 0 20px; }
+    .grid { display:grid; grid-template-columns:1fr; gap:14px; }
+    .card { border:1px solid var(--border); border-radius:16px; padding:14px; background:rgba(255,255,255,.025); }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    label.title { font-weight:700; font-size:16px; }
+    input[type=file] { width:100%; margin-top:10px; color:var(--muted); }
+    .count { color:var(--muted); font-size:14px; }
+    .controls { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    button { appearance:none; border:0; border-radius:14px; padding:14px 18px; font-size:16px; font-weight:700; cursor:pointer; color:#111; background:var(--accent); }
+    button.secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
+    button.danger { background:transparent; color:var(--danger); border:1px solid rgba(255,107,107,.45); }
+    .status { margin-top:14px; color:var(--muted); font-size:14px; min-height:22px; }
+    .tiny { color:var(--muted); font-size:13px; margin-top:12px; }
+    .saved { color:#b8ffbf; font-size:13px; margin-top:8px; }
+    #player { position:fixed; inset:0; background:#000; display:none; justify-content:center; align-items:center; z-index:999; overflow:hidden; }
+    #displayImage { width:100vw; height:100vh; object-fit:contain; background:#000; }
+    #overlay { position:fixed; left:12px; right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); display:flex; justify-content:space-between; align-items:center; gap:10px; color:rgba(255,255,255,.85); font-size:14px; pointer-events:none; }
+    #overlay button { pointer-events:auto; font-size:14px; padding:10px 12px; background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.22); backdrop-filter:blur(10px); }
   </style>
 </head>
 <body>
   <main class="app">
     <h1>Tier Session Player</h1>
-    <p>Select your audio and image pools. The player chooses one random image from each tier, then runs: black 2 min → tier 1 4 min → tier 2 5 min → tier 3 4 min.</p>
-
+    <p>Select your audio/video once, save it, then select image pools. The player chooses one random image from each tier and runs: black 2 min → tier 1 4 min → tier 2 5 min → tier 3 4 min.</p>
     <div class="grid">
       <div class="card">
-        <div class="row">
-          <label class="title" for="audioInput">Session audio</label>
-          <span id="audioCount" class="count">No audio selected</span>
-        </div>
-        <input id="audioInput" type="file" accept="audio/*" />
+        <div class="row"><label class="title" for="audioInput">Session audio/video</label><span id="audioCount" class="count">No audio saved</span></div>
+        <input id="audioInput" type="file" accept="audio/*,video/*,.mp3,.m4a,.wav,.aac,.mp4,.mov" />
+        <div class="controls" style="margin-top:10px"><button id="saveAudioButton" class="secondary">Save audio/video</button><button id="clearAudioButton" class="danger">Clear saved audio</button></div>
+        <div id="savedAudioNote" class="saved"></div>
       </div>
-
-      <div class="card">
-        <div class="row">
-          <label class="title" for="blackInput">Black screen image</label>
-          <span id="blackCount" class="count">0 selected</span>
-        </div>
-        <input id="blackInput" type="file" accept="image/*" multiple />
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <label class="title" for="tier1Input">Tier 1 images</label>
-          <span id="tier1Count" class="count">0 selected</span>
-        </div>
-        <input id="tier1Input" type="file" accept="image/*" multiple />
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <label class="title" for="tier2Input">Tier 2 images</label>
-          <span id="tier2Count" class="count">0 selected</span>
-        </div>
-        <input id="tier2Input" type="file" accept="image/*" multiple />
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <label class="title" for="tier3Input">Tier 3 images</label>
-          <span id="tier3Count" class="count">0 selected</span>
-        </div>
-        <input id="tier3Input" type="file" accept="image/*" multiple />
-      </div>
+      <div class="card"><div class="row"><label class="title" for="blackInput">Black screen image</label><span id="blackCount" class="count">0 selected</span></div><input id="blackInput" type="file" accept="image/*" multiple /></div>
+      <div class="card"><div class="row"><label class="title" for="tier1Input">Tier 1 images</label><span id="tier1Count" class="count">0 selected</span></div><input id="tier1Input" type="file" accept="image/*" multiple /></div>
+      <div class="card"><div class="row"><label class="title" for="tier2Input">Tier 2 images</label><span id="tier2Count" class="count">0 selected</span></div><input id="tier2Input" type="file" accept="image/*" multiple /></div>
+      <div class="card"><div class="row"><label class="title" for="tier3Input">Tier 3 images</label><span id="tier3Count" class="count">0 selected</span></div><input id="tier3Input" type="file" accept="image/*" multiple /></div>
     </div>
-
-    <div class="controls">
-      <button id="startButton">Start session</button>
-      <button id="testButton" class="secondary">Test fast mode</button>
-      <button id="resetButton" class="danger">Clear selections</button>
-    </div>
-
+    <div class="controls"><button id="startButton">Start session</button><button id="testButton" class="secondary">Test fast mode</button><button id="resetButton" class="danger">Clear image selections</button></div>
     <div id="status" class="status"></div>
-    <div class="tiny">Tip: in Safari, use Share → Add to Home Screen to make this feel like an app.</div>
+    <div class="tiny">iPad tip: if MP3 picking is weird, choose the same audio exported as .m4a or .mp4. This version accepts audio and video files and can save the selected track in browser storage.</div>
   </main>
-
-  <section id="player">
-    <img id="displayImage" alt="Session image" />
-    <div id="overlay">
-      <span id="phaseText">Ready</span>
-      <button id="stopButton">Stop</button>
-    </div>
-  </section>
-
-  <audio id="audio" preload="auto"></audio>
-
+  <section id="player"><img id="displayImage" alt="Session image" /><div id="overlay"><span id="phaseText">Ready</span><button id="stopButton">Stop</button></div></section>
+  <audio id="audio" preload="auto" playsinline></audio>
   <script>
-    const state = {
-      audioFile: null,
-      black: [],
-      tier1: [],
-      tier2: [],
-      tier3: [],
-      timers: [],
-      urls: []
-    };
-
-    const $ = (id) => document.getElementById(id);
-
-    const inputs = {
-      audio: $("audioInput"),
-      black: $("blackInput"),
-      tier1: $("tier1Input"),
-      tier2: $("tier2Input"),
-      tier3: $("tier3Input")
-    };
-
-    function setStatus(msg) {
-      $("status").textContent = msg;
-    }
-
-    function updateCounts() {
-      $("audioCount").textContent = state.audioFile ? state.audioFile.name : "No audio selected";
-      $("blackCount").textContent = `${state.black.length} selected`;
-      $("tier1Count").textContent = `${state.tier1.length} selected`;
-      $("tier2Count").textContent = `${state.tier2.length} selected`;
-      $("tier3Count").textContent = `${state.tier3.length} selected`;
-    }
-
-    inputs.audio.addEventListener("change", () => {
-      state.audioFile = inputs.audio.files[0] || null;
-      updateCounts();
-    });
-
-    ["black", "tier1", "tier2", "tier3"].forEach(key => {
-      inputs[key].addEventListener("change", () => {
-        state[key] = Array.from(inputs[key].files || []);
-        updateCounts();
-      });
-    });
-
-    function pickRandom(files) {
-      return files[Math.floor(Math.random() * files.length)];
-    }
-
-    function makeUrl(file) {
-      const url = URL.createObjectURL(file);
-      state.urls.push(url);
-      return url;
-    }
-
-    function clearTimersAndUrls() {
-      state.timers.forEach(clearTimeout);
-      state.timers = [];
-      state.urls.forEach(URL.revokeObjectURL);
-      state.urls = [];
-    }
-
-    async function enterFullscreen() {
-      const player = $("player");
-      if (player.requestFullscreen) {
-        try { await player.requestFullscreen(); } catch (e) {}
-      } else if (player.webkitRequestFullscreen) {
-        try { player.webkitRequestFullscreen(); } catch (e) {}
-      }
-    }
-
-    function showImage(file, label) {
-      $("displayImage").src = makeUrl(file);
-      $("phaseText").textContent = label;
-    }
-
-    function validate() {
-      if (!state.audioFile) return "Select your session audio first.";
-      if (!state.black.length) return "Select at least one black screen image.";
-      if (!state.tier1.length) return "Select at least one Tier 1 image.";
-      if (!state.tier2.length) return "Select at least one Tier 2 image.";
-      if (!state.tier3.length) return "Select at least one Tier 3 image.";
-      return "";
-    }
-
-    async function startSession(fastMode = false) {
-      const error = validate();
-      if (error) {
-        setStatus(error);
-        return;
-      }
-
-      clearTimersAndUrls();
-
-      const selected = [
-        { label: "Black screen", file: pickRandom(state.black), duration: fastMode ? 3000 : 2 * 60 * 1000 },
-        { label: "Tier 1", file: pickRandom(state.tier1), duration: fastMode ? 3000 : 4 * 60 * 1000 },
-        { label: "Tier 2", file: pickRandom(state.tier2), duration: fastMode ? 3000 : 5 * 60 * 1000 },
-        { label: "Tier 3", file: pickRandom(state.tier3), duration: fastMode ? 3000 : 4 * 60 * 1000 }
-      ];
-
-      $("player").style.display = "flex";
-      await enterFullscreen();
-
-      const audio = $("audio");
-      audio.src = makeUrl(state.audioFile);
-      audio.currentTime = 0;
-      audio.play().catch(() => {
-        setStatus("Audio could not autoplay. Tap the screen or Start again.");
-      });
-
-      let elapsed = 0;
-      selected.forEach((item, index) => {
-        const timer = setTimeout(() => {
-          showImage(item.file, `${item.label} (${index + 1}/4)`);
-        }, elapsed);
-        state.timers.push(timer);
-        elapsed += item.duration;
-      });
-
-      const endTimer = setTimeout(stopSession, elapsed);
-      state.timers.push(endTimer);
-
-      setStatus(fastMode ? "Fast test running." : "Session running.");
-    }
-
-    function stopSession() {
-      $("audio").pause();
-      $("audio").currentTime = 0;
-      $("player").style.display = "none";
-      $("displayImage").removeAttribute("src");
-      clearTimersAndUrls();
-
-      if (document.fullscreenElement && document.exitFullscreen) {
-        document.exitFullscreen().catch(() => {});
-      }
-
-      setStatus("Session stopped.");
-    }
-
-    function resetSelections() {
-      stopSession();
-      state.audioFile = null;
-      state.black = [];
-      state.tier1 = [];
-      state.tier2 = [];
-      state.tier3 = [];
-      Object.values(inputs).forEach(input => input.value = "");
-      updateCounts();
-      setStatus("Selections cleared.");
-    }
-
-    $("startButton").addEventListener("click", () => startSession(false));
-    $("testButton").addEventListener("click", () => startSession(true));
-    $("stopButton").addEventListener("click", stopSession);
-    $("resetButton").addEventListener("click", resetSelections);
-
-    updateCounts();
+    const DB_NAME="tier-session-player-db", STORE="media-store", AUDIO_KEY="saved-audio";
+    const state={pickedAudioFile:null,savedAudioBlob:null,savedAudioName:"",black:[],tier1:[],tier2:[],tier3:[],timers:[],urls:[]};
+    const $=id=>document.getElementById(id);
+    function setStatus(msg){$("status").textContent=msg;}
+    function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore(STORE);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+    async function dbSet(key,value){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).put(value,key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+    async function dbGet(key){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readonly");const req=tx.objectStore(STORE).get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+    async function dbDelete(key){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).delete(key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+    async function loadSavedAudio(){try{const record=await dbGet(AUDIO_KEY);if(record&&record.blob){state.savedAudioBlob=record.blob;state.savedAudioName=record.name||"saved audio";}}catch(e){} updateCounts();}
+    function updateCounts(){const audioText=state.pickedAudioFile?`Selected: ${state.pickedAudioFile.name}`:state.savedAudioBlob?`Saved: ${state.savedAudioName}`:"No audio saved";$("audioCount").textContent=audioText;$("savedAudioNote").textContent=state.savedAudioBlob?"Saved audio/video is ready. You can start without picking it again.":"";$("blackCount").textContent=`${state.black.length} selected`;$("tier1Count").textContent=`${state.tier1.length} selected`;$("tier2Count").textContent=`${state.tier2.length} selected`;$("tier3Count").textContent=`${state.tier3.length} selected`;}
+    const inputs={audio:$("audioInput"),black:$("blackInput"),tier1:$("tier1Input"),tier2:$("tier2Input"),tier3:$("tier3Input")};
+    inputs.audio.addEventListener("change",()=>{state.pickedAudioFile=inputs.audio.files[0]||null;updateCounts();if(state.pickedAudioFile)setStatus("Audio/video selected. Tap Save audio/video to store it for next time.");});
+    ["black","tier1","tier2","tier3"].forEach(key=>{inputs[key].addEventListener("change",()=>{state[key]=Array.from(inputs[key].files||[]);updateCounts();});});
+    $("saveAudioButton").addEventListener("click",async()=>{if(!state.pickedAudioFile){setStatus("Pick an audio or video file first, then tap save.");return;}try{await dbSet(AUDIO_KEY,{name:state.pickedAudioFile.name,type:state.pickedAudioFile.type,blob:state.pickedAudioFile});state.savedAudioBlob=state.pickedAudioFile;state.savedAudioName=state.pickedAudioFile.name;updateCounts();setStatus("Saved. Next time you open the app, this audio/video should still be available.");}catch(e){setStatus("Could not save audio/video. iPad storage may be blocking it or the file may be too large.");}});
+    $("clearAudioButton").addEventListener("click",async()=>{await dbDelete(AUDIO_KEY);state.savedAudioBlob=null;state.savedAudioName="";state.pickedAudioFile=null;inputs.audio.value="";updateCounts();setStatus("Saved audio cleared.");});
+    function pickRandom(files){return files[Math.floor(Math.random()*files.length)];}
+    function makeUrl(fileOrBlob){const url=URL.createObjectURL(fileOrBlob);state.urls.push(url);return url;}
+    function clearTimersAndUrls(){state.timers.forEach(clearTimeout);state.timers=[];state.urls.forEach(URL.revokeObjectURL);state.urls=[];}
+    async function enterFullscreen(){const player=$("player");if(player.requestFullscreen){try{await player.requestFullscreen();}catch(e){}}else if(player.webkitRequestFullscreen){try{player.webkitRequestFullscreen();}catch(e){}}}
+    function showImage(file,label){$("displayImage").src=makeUrl(file);$("phaseText").textContent=label;}
+    function getAudioBlob(){return state.savedAudioBlob||state.pickedAudioFile;}
+    function validate(){if(!getAudioBlob())return"Select and save your audio/video first.";if(!state.black.length)return"Select at least one black screen image.";if(!state.tier1.length)return"Select at least one Tier 1 image.";if(!state.tier2.length)return"Select at least one Tier 2 image.";if(!state.tier3.length)return"Select at least one Tier 3 image.";return"";}
+    async function startSession(fastMode=false){const error=validate();if(error){setStatus(error);return;}clearTimersAndUrls();const selected=[{label:"Black screen",file:pickRandom(state.black),duration:fastMode?3000:2*60*1000},{label:"Tier 1",file:pickRandom(state.tier1),duration:fastMode?3000:4*60*1000},{label:"Tier 2",file:pickRandom(state.tier2),duration:fastMode?3000:5*60*1000},{label:"Tier 3",file:pickRandom(state.tier3),duration:fastMode?3000:4*60*1000}];$("player").style.display="flex";await enterFullscreen();const audio=$("audio");audio.src=makeUrl(getAudioBlob());audio.currentTime=0;audio.play().catch(()=>{setStatus("Audio could not start. Tap Start again, or try converting the audio to .m4a/.mp4.");});let elapsed=0;selected.forEach((item,index)=>{const timer=setTimeout(()=>showImage(item.file,`${item.label} (${index+1}/4)`),elapsed);state.timers.push(timer);elapsed+=item.duration;});state.timers.push(setTimeout(stopSession,elapsed));setStatus(fastMode?"Fast test running.":"Session running.");}
+    function stopSession(){$("audio").pause();$("audio").currentTime=0;$("player").style.display="none";$("displayImage").removeAttribute("src");clearTimersAndUrls();if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});setStatus("Session stopped.");}
+    function resetImages(){stopSession();state.black=[];state.tier1=[];state.tier2=[];state.tier3=[];["black","tier1","tier2","tier3"].forEach(key=>inputs[key].value="");updateCounts();setStatus("Image selections cleared.");}
+    $("startButton").addEventListener("click",()=>startSession(false));$("testButton").addEventListener("click",()=>startSession(true));$("stopButton").addEventListener("click",stopSession);$("resetButton").addEventListener("click",resetImages);
+    loadSavedAudio();
   </script>
 </body>
 </html>
